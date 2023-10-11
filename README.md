@@ -1,15 +1,13 @@
-# FMOD Studio integration for Godot using GDNative
+# FMOD Studio integration for Godot using C++ Modules
 
-**A Godot C++ GDNative that provides an integration for the FMOD Studio API.**
-
-![](https://img.shields.io/badge/Godot%20Compatible-3.1%2B-%234385B5) [![All builds](https://github.com/utopia-rise/fmod-gdnative/actions/workflows/all_builds.yml/badge.svg?branch=master)](https://github.com/utopia-rise/fmod-gdnative/actions/workflows/all_builds.yml) [![](https://img.shields.io/discord/1012326818365325352.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/u2NM2vTGMn)
+**A Godot C++ Module that provides an integration for the FMOD Studio API.**
 
 ---
 
 FMOD is an audio engine and middleware solution for interactive audio in games. It has been the audio engine behind many
 titles such as Transistor, Into the Breach and Celeste. [More on FMOD's website](https://www.fmod.com/).
 
-This GDNative exposes most of the Studio API functions to Godot's GDScript and also provides helpers for performing
+This module exposes most of the Studio API functions to Godot's GDScript and also provides helpers for performing
 common functions like attaching Studio events to Godot nodes and playing 3D/positional audio. _It is still very much a
 work in progress and some API functions are not yet exposed._ Feel free to tweak/extend it based on your project's needs.
 
@@ -17,21 +15,13 @@ work in progress and some API functions are not yet exposed._ Feel free to tweak
 same wrapper to build an integration for Godot in C#. However do note that this would only work on a Mono build of Godot
 as C# support is required and performance might not be on the same level as a C++ integration. 
 
-**Note:** This project is a fork of [godot-fmod-integration](https://github.com/alexfonseka/godot-fmod-integration)
-which uses godot module to integrate fmod in the engine. We thank [alexfonseka](https://github.com/alexfonseka) for the work he did.
-This fork was designed to be able to use Fmod without building Godot Engine !
+**Note:** This project is a fork of [fmod-gdextension](https://github.com/utopia-rise/fmod-gdextension) from [utopia-rise](https://github.com/utopia-rise) which is a fork of [godot-fmod-integration](https://github.com/alexfonseka/godot-fmod-integration)
+This fork was designed to be able to use Fmod in web builds!
 
-![wowmeme]
-
-### Continuous delivery
-
-This project uses github actions to continuously deploy released drivers. If you do not want to use those releases, you
-can compile from sources by looking to [compile from sources section](./docs/COMPILING.md).  
-This project uses [SEMVER](https://semver.org/).
 
 #### OS Compatibility:
 
-This plugin is compatible with Windows, Linux, OSX, Android and iOS. No WASM/HTML 5 support is available for now.
+This plugin is compatible with Windows, Linux, OSX, HTML 5. I have no experience with Android and iOS support so they may not be available for now.
 
 #### Godot compatibility:
 
@@ -47,67 +37,9 @@ New releases are build and tested against recent version of Godot but no breakin
 
 ## Installing the plugin in your project
 
-### Install addon folder
+To be written...
 
-We provide releases in github repository. You can download `fmod.zip` from release tabs, unzip it, and copy it to
-`addons` folder of your project.  
-
-It does not contains :
-- Libraries from FMOD company.
-
-It contains :
-- built plugin
-- gdnlib and gdns
-- Fmod gdscript singleton
-- test scripts.
-
-### Add Fmod libraries to appropriate folder
-
-[Download the FMOD Studio API](https://www.fmod.com/download) (You need to create an account), if you have not done it yet.
-Then place fmod libraries (both `fmod` and `fmodstudio`) in the appropriate folder for each platform. A `CopyPast_Fmod_Libs_and_Gdnative_Here.txt` file
-should be present where you need to copy libraries.  
-Paths where you need to add shared libraries are:  
-- `res://addons/fmod/libs/android/arm64_v8a/`
-- `res://addons/fmod/libs/osx/`
-- `res://addons/fmod/libs/windows/`
-- `res://addons/fmod/libs/linux/`
-- `res://addons/fmod/libs/iOS/`
-
-You can also refer to `gdnlib` file in order to figure out what dependency is needed:
-
-```
-[dependencies]
-
-Android.arm64-v8a=[ "res://addons/fmod/libs/android/arm64_v8a/libfmod.so", "res://addons/fmod/libs/android/arm64_v8a/libfmodstudio.so" ]
-OSX.64=[ "res://addons/fmod/libs/osx/libfmod.dylib", "res://addons/fmod/libs/osx/libfmodstudio.dylib" ]
-Windows.64=[ "res://addons/fmod/libs/windows/fmod.dll", "res://addons/fmod/libs/windows/fmodstudio.dll" ]
-X11.64=[ "res://addons/fmod/libs/linux/libfmod.so", "res://addons/fmod/libs/linux/libfmodstudio.so" ]
-iOS.arm64=[ "res://addons/fmod/libs/iOS/libfmodstudio_iphoneos.a", "res://addons/fmod/libs/iOS/libfmod_iphoneos.a", "res://addons/fmod/libs/iOS/libgodot-cpp.ios.release.arm64.a" ]
-```
-
-You should now be ready to go with Fmod and Godot !
-
-NOTE: The Fmod singleton must be the first autoload otherwise issues can arise from calling the Fmod singleton from other autoloaded scripts. 
-
-### Fmod on android with GDNative
-
-Fmod require a specific .jar to run on Android + some additionnal setup lines in the godot java wrapper for Android.
-Starting from Godot 3.2, a new custom android build system was introduced. You can use add simple files to your godot
-project to add java code and libraries without recompiling the whole engine.  
-All is explained in this tutorial this [tutorial](https://docs.godotengine.org/en/3.2/getting_started/workflow/export/android_custom_build.html#doc-android-custom-build).  
-
-Here is how-to:  
-To export android project, you need to copy `android` folder from [demo project](demo/).  
-Also you will have to add `fmod.jar` from `core/lib` of downloaded android fmod library into `android/fmod/libs/`.
-Then add the Fmod java singleton in `ProjectSettings ==> android`.  
-
-![fmodsingleton]
-
-And finally you have to setup the android export template.
-
-![usecustombuild]
-
-## Using the GDNative
+## Using the module
 
 ### Basic usage
 
@@ -374,11 +306,5 @@ This enables CI to download FMOD api.
 ## Thanks
 
 This project is a forked from [godot-fmod-integration](https://github.com/alexfonseka/godot-fmod-integration)
-from [alexfonseka](https://github.com/alexfonseka). We'd like to thank him for the work he did, we simply adapted his
-work to GDNative.  
+from [alexfonseka](https://github.com/alexfonseka) and [fmod-gdextension](https://github.com/utopia-rise/fmod-gdextension) from [utopia-rise](https://github.com/utopia-rise). We'd like to thank them for the work they did, we simply adapted their work back to C++ Modules.  
 Feel free to propose any modification using github's *pull request*. We hope you'll enjoy this driver.
-
-
-[wowmeme]: .README/wowmeme.png
-[fmodsingleton]: .README/fmodsingleton.png
-[usecustombuild]: .README/usecustombuild.png
